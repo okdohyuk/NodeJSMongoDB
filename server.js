@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 
 const app = express();
+const { DBURL } = process.env;
 
-mongoose.connect("mongodb+srv://bash:bash1122!@cluster0-aiqor.mongodb.net/test",
+mongoose.connect(DBURL,
 {
     useNewUrlParser: true,
     useUnifiedTopology: true
