@@ -1,8 +1,39 @@
 <html>
     <head>
         <title>게시판 목록</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/css/board.css">
     </head>
     <body>
-        <button onclick="location.href='/board/write'">글쓰기</button>
+        <div class="container">
+            <h1 class="main-title">게시판 목록</h1>
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">조회수</th>
+                    <th scope="col">작성시간</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% for(let i = 0; i < boards.length; i++) { %>
+                    <tr>
+                        <th scope="row"><%=i+1%></th>
+                        <td>
+                            <a href="/board/view?id=<%=boards[i]._id%>"><%=boards[i].title%></a>
+                        </td>
+                        <td><%=boards[i].viewCount%></td>
+                        <td><%=moment(boards[i].createdAt).format("YYYY-MM-DD HH:mm:ss")%></td>
+                    </tr>
+                    <% } %>
+                </tbody>
+              </table>
+
+              <button type="button" class="btn btn-info btn-write" onclick="location.href='/board/write'">글작성</button>
+        </div>
     </body>
 </html>

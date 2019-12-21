@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>게시판 상세</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/css/board.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1><%=board.title%></h1>
+            <p>조회수: <%=board.viewCount%></p>
+            <p>작성시간: <%=moment(board.createdAt).format("YYYY-MM-DD HH:mm:ss")%></p>
+            <p><%=board.content%></p>
+            <button type="button" class="btn btn-danger btn-write" onclick="location.href = '/board/delete?id=<%=board._id%>'">글삭제</button>
+            <button type="button" class="btn btn-success btn-write" onclick="location.href = '/board/edit?id=<%=board._id%>'">글수정</button>
+        </div>
+    </body>
+</html>
