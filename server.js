@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const app = express();
 const { DBURL } = process.env;
 
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+
 mongoose.connect(DBURL,
 {
     useNewUrlParser: true,
@@ -30,6 +33,17 @@ app.use(express.urlencoded({
 
 app.use(require("./routes"));
 
-app.listen(PORT, () => {
+let userCount = 0;
+io.on("connection", (socket) => {
+    console.log("connect", socket.id);
+    userCount += 1;
+    io.to(socket.id).emit("setname", "user"+userCount);
+
+    socket.on("send", (name, text) => {
+        io.emit("recv", name + ": " + text);
+    });
+});
+
+http.listen(PORT, () => {
     console.log("SERVER LISTEN");
 });

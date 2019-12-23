@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>채팅</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/css/board.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <style>
+            .chatLog {
+                width: 95%;
+                height: 250px;
+            }
+
+            input[name="message"] {
+                width: 62%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <textarea class="chatLog" readonly></textarea>
+            <form class="chat">
+                <input type="text" name="userName" placeholder="이름">
+                <input type="text" name="message" placeholder="메시지">
+                <input type="submit" class="chat" value="전송">
+            </form>
+        </div>
+        <script>
+            var socket = io();
+
+            document.querySelector(".chat").addEventListener("submit", function(e) {
+                console.log("detect");
+                const name = document.querySelector("input[name='userName']");
+                const message = document.querySelector("input[name='message']");
+
+                socket.emit("send", name.value, message.value);
+                message.value = "";
+                e.preventDefault();
+            });
+
+            socket.on("recv", function(message) {
+                document.querySelector(".chatLog").value += message + "\n";
+                const Target = document.querySelector(".chatLog");
+                Target.scrollTop = Target.scrollHeight;
+            });
+
+            socket.on("setname", function(name) {
+                document.querySelector("input[name='userName']").value = name;
+            })
+        </script>
+    </body>
+</html>
